@@ -6,6 +6,9 @@ For each party output a dictionary : {"a": ..., "b": ..., "c": ...}
 Notes:
 1. Decentralized generation: fig 7. of "Overdrive: making SPDZ great again".
 1. Use integer instead of float.
+2. This method is intended for testing. As such, it is not secure!
+    - np.random with a seed input from user is not safe for cryptographic use
+    - c_i = a_i * sum_j b_j ==> Each party can reconstruct b (the shared secret) from its share of c and a.
 """
 import argparse
 import numpy as np
