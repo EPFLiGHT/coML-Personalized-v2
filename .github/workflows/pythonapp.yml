@@ -26,5 +26,5 @@ jobs:
         pip install jupytext --upgrade
         jupytext --to notebook README.md
         git add README.ipynb
-        git commit -m"Daily update of README.ipynb"
+        git commit -m"Daily update of README.ipynb" --author "Felix Grimberg <felix.grimberg@epfl.ch>"
         git push
