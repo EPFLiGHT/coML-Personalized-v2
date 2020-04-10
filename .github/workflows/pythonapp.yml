@@ -5,7 +5,7 @@ name: Python application
 
 on:
   schedule:
-    - cron: '42 5 * * *'
+    - cron: '42 3 * * *'
 
 jobs:
   build:
@@ -26,5 +26,7 @@ jobs:
         pip install jupytext --upgrade
         jupytext --to notebook README.md
         git add README.ipynb
-        git commit -m"Daily update of README.ipynb" --author "Felix Grimberg <felix.grimberg@epfl.ch>"
+        git config user.email "53295216+Grim-bot@users.noreply.github.com"
+        git config user.name "Felix Grimberg"
+        git commit -m"Daily update of README.ipynb"
         git push
