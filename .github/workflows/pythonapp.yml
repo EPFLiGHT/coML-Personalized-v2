@@ -21,12 +21,18 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-    - name: Build README.ipynb with jupytext
-      run: |
         pip install jupytext --upgrade
-        jupytext --to notebook README.md
-        git add README.ipynb
+    - name: Unstage README.ipynb
+      run: |
         git config user.email "53295216+Grim-bot@users.noreply.github.com"
         git config user.name "Felix Grimberg"
-        git commit -m"Daily update of README.ipynb"
+        git rm README.ipynb
+        git commit -m"Daily update of README.ipynb, pt1"
+    - name: Build README.ipynb with jupytext
+      run: |
+        jupytext --to notebook README.md
+    - name: Commit README.ipynb
+      run: |
+        git add README.ipynb
+        git commit -m"Daily update of README.ipynb, pt2"
         git push
