@@ -7,6 +7,20 @@ In this repo, we investigate methods for automatic data selection based on the d
 
 ## To view correctly displayed formulas directly in GitHub, open [the IPYNB version of this README](README.ipynb)!
 
+### Using the repo
+
+We use `pipenv` to control external package dependencies. The safest way to avoid dependency issues while running code from this project is to follow these steps:
+
+1. Make sure the latest version of `pipenv` is installed:
+  1. ```pip install --upgrade pipenv```
+  2. If necessary, add the `--user` option and remember to update the `PATH` environment variable with the directory in which pipenv was installed.
+2. Clone the repository (`git clone`) and `cd` into it.
+3. Install the dependencies from the `Pipfile.lock` file: ```pipenv sync```
+4. Make sure to use the virtual environment you've just created:
+  1. Execute `pipenv shell`. Every process you start from this command from now until you execute `exit`, will be executed in the virtual environment.
+  2. Alternatively, execute `pipenv run <your-command>`, e.g. `pipenv run jupyter lab`.
+
+
 ### Setting:
 
 We consider a network of participants $u_i$, each collecting samples from an underlying distribution $\mathcal{D}_i$.
