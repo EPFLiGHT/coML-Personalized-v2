@@ -17,8 +17,10 @@ We use `pipenv` to control external package dependencies. The safest way to avoi
 2. Clone the repository (`git clone`) and `cd` into it.
 3. Install the dependencies from the `Pipfile.lock` file: ```pipenv sync```
 4. Make sure to use the virtual environment you've just created:
-  1. Execute `pipenv shell`. Every process you start from this command from now until you execute `exit`, will be executed in the virtual environment.
-  2. Alternatively, execute `pipenv run <your-command>`, e.g. `pipenv run jupyter lab`.
+  1. Activate the virtual environment: `pipenv shell`
+  2. To execute IPython Notebooks, you need to create a Kernel for this environment. With the virtual environment active, execute the following (you can pick the venv name):
+  
+  ```python -m ipykernel install --user --display-name <venv_name> --name <venv_name>```
 
 
 ### Setting:

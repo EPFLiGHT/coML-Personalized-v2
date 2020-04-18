@@ -15,6 +15,7 @@ pandas = "*"
 tensorflow = "*"
 tensorflow-datasets = "*"
 tensorflow-federated = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.7"
