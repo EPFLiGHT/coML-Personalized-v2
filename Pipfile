@@ -17,6 +17,7 @@ tensorflow-datasets = "*"
 tensorflow-federated = "*"
 ipykernel = "*"
 scikit-learn = "*"
+setgpu = "*"
 
 [requires]
 python_version = "3.7"

@@ -6,6 +6,7 @@ Read about the aim and objectives of this project in the [report](Report - 20033
 In this repo, we investigate methods for automatic data selection based on the distance between gradients in SGD-based optimization algorithms.
 
 ## To view correctly displayed formulas directly in GitHub, open [the IPYNB version of this README](README.ipynb)!
+It's updated nightly to mirror the contents of the Markdown file.
 
 ### Using the repo
 
