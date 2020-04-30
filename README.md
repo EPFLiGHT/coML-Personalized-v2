@@ -14,7 +14,9 @@ We use `pipenv` to control external package dependencies. The safest way to avoi
 
 1. Make sure the latest version of `pipenv` is installed:
   1. ```pip install --upgrade pipenv```
-  2. If necessary, add the `--user` option and remember to update the `PATH` environment variable with the directory in which pipenv was installed.
+  2. If necessary, add the `--user` option. When using this option, **remember to update the `PATH` environment variable** with the directory in which pipenv was installed:
+  
+    ```export PATH=<directory>:$PATH```
 2. Clone the repository (`git clone`) and `cd` into it.
 3. Install the dependencies from the `Pipfile.lock` file: ```pipenv sync```
 4. Make sure to use the virtual environment you've just created:
@@ -22,7 +24,7 @@ We use `pipenv` to control external package dependencies. The safest way to avoi
   2. To execute IPython Notebooks, you need to create a Kernel for this environment. With the virtual environment active, execute the following (you can pick the venv name):
   
   ```python -m ipykernel install --user --display-name <venv_name> --name <venv_name>```
-
+5. Obtain the data, which I do not own, and place it in `../data/private/`
 
 ### Setting:
 
