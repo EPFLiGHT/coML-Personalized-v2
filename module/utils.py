@@ -1,19 +1,35 @@
 from enum import Enum
 from typing import Sequence, Tuple
 import random
+import os.path
 
 import numpy as np
 import tensorflow as tf
 
 from .custom_types import *
 
+def load_X_y_age(load_dir):
+    outs = []
+    for file in ['X', 'y', 'age']:
+        outs.append(
+            np.loadtxt(os.path.join(load_dir, file+'.csv'),
+                       skiprows=1,
+                       delimiter=','
+                      )
+        )
+    assert (outs[0].shape[0] == outs[1].shape[0]) and (outs[1].shape[0] == outs[2].shape[0])
+    return tuple(outs)
 
 def load_2017annie_predict_EVD(age_lims: Sequence[int] = [20, 40]):
-    X = np.loadtxt('../data/private/predict_EVD/X.csv', skiprows=1, delimiter=',')
-    y = np.loadtxt('../data/private/predict_EVD/y.csv', skiprows=1, delimiter=',')
-    age = np.loadtxt('../data/private/predict_EVD/age.csv', skiprows=1, delimiter=',')
-    assert (X.shape[0] == y.shape[0]) and (y.shape[0] == age.shape[0])
+    load_dir = '../data/private/predict_EVD'
+    X, y, age = load_X_y_age(load_dir)
     return X, y, age, age_lims
+
+def load_Titanic_predict_survived(age_lims: Sequence[int] = [20, 35]):
+    load_dir = '../data/non-private/predict_titanic_survived'
+    X, y, age = load_X_y_age(load_dir)
+    return X, y, age, age_lims
+    
 
 def make_ds(X, y, batch_size):
     return tf.data.Dataset.from_tensor_slices({'features': X, 'label':y})\
@@ -60,6 +76,7 @@ def split_by_age(
 
 class SetLoaders(Enum):
     ANNIE_EVD = load_2017annie_predict_EVD
+    TITANIC_SURVIVED = load_Titanic_predict_survived
     
 class Splitters(Enum):
     AGE_STRICT = split_by_age
