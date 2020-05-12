@@ -74,16 +74,21 @@ def split_by_age(
         random.shuffle(idx)
     return [(X[idx], y[idx]) for idx in ids]
 
-# def split_old(
-#         X:   np.ndarray,
-#         y:   np.ndarray,
-#         age: np.ndarray,
-#         age_lims: Sequence[int]
-# ) -> Sequence[Tuple[np.ndarray, np.ndarray]]:
-#     """ Split the datum points (X,y) into three sets based on the age of the patients.
-#     Like split_by_age, except.
-#     The datum points within each set are shuffled.
-#     """
+def split_some_by_age(
+        X:   np.ndarray,
+        y:   np.ndarray,
+        age: np.ndarray,
+        age_lims: Sequence[int]
+) -> Sequence[Tuple[np.ndarray, np.ndarray]]:
+    """ Split the datum points (X,y) into three sets based on the age of the patients.
+    Like `split_by_age`, except the first two sets are mixed. In effect, yes, this
+    implies that the first value in age_lims is not used.
+    The datum points within each set are shuffled.
+    """
+    clients_by_age = split_by_age(X, y, age, age_lims[1:])
+    X0, y0 = clients_by_age[0]
+    cut = X0.shape[0] // 2
+    return [(X0[:cut], y0[:cut]), (X0[cut:], y0[cut:])] + clients_by_age[1:]
 
 class SetLoaders(Enum):
     ANNIE_EVD = load_2017annie_predict_EVD
@@ -91,6 +96,7 @@ class SetLoaders(Enum):
     
 class Splitters(Enum):
     AGE_STRICT = split_by_age
+    AGE_SOME   = split_some_by_age
 
 def load(set_loader, splitter, seed, loader_kwargs={}, splitter_kwargs={}
         ) -> Sequence[Tuple[np.ndarray, np.ndarray]]:
