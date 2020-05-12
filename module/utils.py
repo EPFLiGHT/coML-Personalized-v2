@@ -43,7 +43,7 @@ def split_by_age(
         age_lims: Sequence[int]
 ) -> Sequence[Tuple[np.ndarray, np.ndarray]]:
     """ Split the datum points (X,y) into three sets based on the age of the patients.
-    The patients are sorted into age groups [1-20y, 21-40y, >40y].
+    The patients are sorted into age groups delimited by age_lims.
     The datum points within each set are shuffled.
     """
     if not (X.shape[0] == y.shape[0] and y.shape[0] == age.shape[0]):
@@ -62,7 +62,6 @@ def split_by_age(
     ids = []
     for i, (lower, upper) in enumerate(zip(age_lims[:-1], age_lims[1:])):
         idx = np.asarray((lower < age) & (age <= upper)).nonzero()[0]
-        random.shuffle(idx)
         ids.append(idx)
     
     num_valid = age.shape[0] - num_na
@@ -71,8 +70,20 @@ def split_by_age(
         ids[i] = np.concatenate((idx, idx_na[:num_na_for_client]))
         idx_na = idx_na[num_na_for_client:]
     ids[-1] = np.concatenate((ids[-1], idx_na))
-    
+    for idx in ids:
+        random.shuffle(idx)
     return [(X[idx], y[idx]) for idx in ids]
+
+# def split_old(
+#         X:   np.ndarray,
+#         y:   np.ndarray,
+#         age: np.ndarray,
+#         age_lims: Sequence[int]
+# ) -> Sequence[Tuple[np.ndarray, np.ndarray]]:
+#     """ Split the datum points (X,y) into three sets based on the age of the patients.
+#     Like split_by_age, except.
+#     The datum points within each set are shuffled.
+#     """
 
 class SetLoaders(Enum):
     ANNIE_EVD = load_2017annie_predict_EVD
