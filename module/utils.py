@@ -33,7 +33,7 @@ def load_Titanic_predict_survived(age_lims: Sequence[int] = [20, 35]):
 
 def make_ds(X, y, batch_size):
     return tf.data.Dataset.from_tensor_slices({'features': X, 'label':y})\
-                 .batch(batch_size)
+                 .batch(batch_size, drop_remainder=False)
 
 # This function is not stateless, due to the use of random.shuffle. It is used only once, before the training loop.
 def split_by_age(
