@@ -1,6 +1,7 @@
 from typing import Any, Generator, Tuple, Mapping, Sequence, Optional, Callable, Union, NamedTuple
 from collections import namedtuple
 
+import numpy as np
 import haiku as hk
 import jax.numpy as jnp
 import tensorflow as tf
@@ -60,3 +61,5 @@ dstate_fields = ["train_loss_global",
 DiagnosticsState = namedtuple("DiagnosticsState", dstate_fields,
                               defaults= [list()]*len(dstate_fields)
                              )
+
+Clients_X_y = Sequence[Tuple[np.ndarray, np.ndarray]]
