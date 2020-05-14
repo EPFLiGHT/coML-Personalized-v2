@@ -55,7 +55,8 @@ dstate_fields = ["train_loss_global",
                  "test_loss",
                  "test_accuracy",
                  "similarities",
-                 "epoch_counts"]
+                 "epoch_counts"
+                ]
 DiagnosticsState = namedtuple("DiagnosticsState", dstate_fields,
                               defaults= [list()]*len(dstate_fields)
                              )
