@@ -109,6 +109,21 @@ def dont_split(files_data: Mapping[str, np.ndarray],
     random.shuffle(idx)
     return [(X[idx], files_data['y'][idx])]
 
+def dont_split_Xy_age(files_data: Mapping[str, np.ndarray],
+                      metadata
+                     ) -> Clients_X_y:
+    X = files_data['X']
+    y = files_data['y']
+    
+    while y.ndim < X.ndim:
+        y = y.reshape(list(y.shape)+[1])
+    X = np.concatenate((X, y), axis=-1)
+    
+    idx = np.arange(X.shape[0])
+    random.shuffle(idx)
+    
+    return [(X[idx], files_data['age'][idx])]
+
 class SetLoaders(Enum):
     ANNIE_EVD = load_2017annie_predict_EVD
     TITANIC_SURVIVED = load_Titanic_predict_survived
@@ -117,6 +132,7 @@ class Splitters(Enum):
     AGE_STRICT = split_by_age
     AGE_SOME   = split_some_by_age
     SINGLE_CLIENT = dont_split
+    PREDICT_AGE_SINGLE_CLIENT = dont_split_Xy_age
 
 def load(set_loader, splitter, seed, loader_kwargs={}, splitter_kwargs={}
         ) -> Sequence[Tuple[np.ndarray, np.ndarray]]:
