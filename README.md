@@ -8,7 +8,7 @@ In this repo, we investigate methods for automatic data selection based on the d
 ## To view correctly displayed formulas directly in GitHub, open [the IPYNB version of this README](README.ipynb)!
 It's updated nightly to mirror the contents of the Markdown file.
 
-### Using the repo
+### Using the repo (no longer actually using pipenv)
 
 We use `pipenv` to control external package dependencies. The safest way to avoid dependency issues while running code from this project is to follow these steps:
 
