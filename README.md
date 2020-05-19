@@ -29,9 +29,9 @@ We use `pipenv` to control external package dependencies. The safest way to avoi
 ### Setting:
 
 We consider a network of participants $u_i$, each collecting samples from an underlying distribution $\mathcal{D}_i$.
-One participant $u^*$ is called the user. This participant wishes to perform an inference task, such as (regularized) linear or logistic regression, to gain knowledge about the distribution $\mathcal{D}^*$ from which they collect data.
-The user $u^*$ further believes that *some, but not all,* of the other participants $u_i$ collect sufficiently interoperable data from sufficiently similar underlying distributions, that the samples $\mathcal{S}_i$ collected by them could help reduce the *true loss* of $u^*$'s model on $\mathcal{D}^*$, if the samples $\mathcal{S}_i$ are included in the training of the regression model.
-Our task is to define an algorithm which can help the user $u^*$ minimize the expected *true error* of the fitted regression model on $\mathcal{D}^*$ by selecting a subset of participants whose collected samples are used during training.
+One participant $u_0$ is called the user. This participant wishes to perform an inference task, such as (regularized) linear or logistic regression, to gain knowledge about the distribution $\mathcal{D}_0$ from which they collect data.
+The user $u_0$ further believes that *some, but not all,* of the other participants $u_i$ collect sufficiently interoperable data from sufficiently similar underlying distributions, that the samples $\mathcal{S}_i$ collected by them could help reduce the *true loss* of $u_0$'s model on $\mathcal{D}_0$, if the samples $\mathcal{S}_i$ are included in the training of the regression model.
+Our task is to define an algorithm which can help the user $u_0$ minimize the expected *true error* of the fitted regression model on $\mathcal{D}_0$ by selecting a subset of participants whose collected samples are used during training.
 
 As an example, the participants could be individual hospitals dispersed across one or several regions. Doctors could have reasons to expect that the same set of symptoms is more strongly associated with one diagnosis for the patients of one hospital, and with another diagnosis for the patients of a different hospital.
 As a layman example, it seems conceivable that diseases caused by poor sanitation are more likely to occur in poor rural regions, while drug abuse is more frequent in more affluent urban settings - while causing similar symptoms. This is not to say that the symptoms are indeed similar.
@@ -39,7 +39,7 @@ Knowing this, a medical professional from one hospital might want to train a dia
 
 ### Why we investigate methods based on the distance between gradients in SGD-based optimization algorithms:
 
-We say that a distribution $\mathcal{D}_i$ is *similar to $\mathcal{D}^*$ with respect to the specific inference task at hand* (in short: *similar*), if the weights of each distribution's true model for this inference task are similar.
+We say that a distribution $\mathcal{D}_i$ is *similar to $\mathcal{D}_0$ with respect to the specific inference task at hand* (in short: *similar*), if the weights of each distribution's true model for this inference task are similar.
 
 - [ ] We might want to define a metric for that notion of *similarity* $\uparrow$
 
@@ -57,12 +57,12 @@ Let $\mathcal{M}^{tentative} \in \mathbb{M}$ be a tentative model which performs
 
 $ \textbf{min} \left( \mathcal{R}_{\mathcal{D}_i} \left( \mathcal{M}^{tentative} \right),  \mathcal{R}_{\mathcal{D}_j} \left( \mathcal{M}^{tentative} \right) \right) \gg \textbf{max} \left( \mathcal{R}_{\mathcal{D}_i} \left( \mathcal{M}^{true}_j \right),  \mathcal{R}_{\mathcal{D}_j} \left( \mathcal{M}^{true}_i \right) \right)$
 
-Further, let $\mathbf{g}_i$ and $\mathbf{g}^*$ be the gradients of the loss function $\mathcal{L} \left( y_i, \mathcal{M}^{tentative} \left( \mathbf{x}_i \right) \right)$, respectively $\mathcal{L} \left( y^*, \mathcal{M}^{tentative} \left( \mathbf{x}^* \right) \right)$, for a sample $(y_i, \mathbf{x}_i \in \mathcal{D}_i)$, respectively $(y^*, \mathbf{x}^* \in \mathcal{D}^*)$, with respect to the model weights.
-Then it follows that, in expectation over all possible samples from each distribution, $\mathbf{g}_i$ and $\mathbf{g}^*$ will be similar as well.
+Further, let $\mathbf{g}_i$ and $\mathbf{g}_0$ be the gradients of the loss function $\mathcal{L} \left( y_i, \mathcal{M}^{tentative} \left( \mathbf{x}_i \right) \right)$, respectively $\mathcal{L} \left( y_0, \mathcal{M}^{tentative} \left( \mathbf{x}_0 \right) \right)$, for a sample $(y_i, \mathbf{x}_i \in \mathcal{D}_i)$, respectively $(y_0, \mathbf{x}_0 \in \mathcal{D}_0)$, with respect to the model weights.
+Then it follows that, in expectation over all possible samples from each distribution, $\mathbf{g}_i$ and $\mathbf{g}_0$ will be similar as well.
 
 - [ ] We might want to prove that $\uparrow$, for which we would also need to be more rigorous about what we mean by the two gradients being similar.
 - [ ] We haven't shown that the gradients of two *more similar* distributions will be more similar on average than the gradients of two *less similar* distributions.
-- [ ] Here we assume that $\mathcal{M}^{tentative}$ performs very suboptimally on both distributions. What happens as $\mathcal{M}^{tentative}$ approaches, let's say, the *true model of the joint distribution*? Clearly, the gradients will begin to diverge. Can we formalize this in some way? In fact, I believe that the true model of the joint distribution is such that the sum $\mathbf{g}_i + \mathbf{g}^*$ adds up to $\mathbf{0}$ in expectation.
+- [ ] Here we assume that $\mathcal{M}^{tentative}$ performs very suboptimally on both distributions. What happens as $\mathcal{M}^{tentative}$ approaches, let's say, the *true model of the joint distribution*? Clearly, the gradients will begin to diverge. Can we formalize this in some way? In fact, I believe that the true model of the joint distribution is such that the sum $\mathbf{g}_i + \mathbf{g}_0$ adds up to $\mathbf{0}$ in expectation.
 - [ ] Related to the previous point: Maybe the aggregated similarity estimator (cf. below) should experience some form of decay, if we expect the (expected) gradients to diverge as the model gets better? But then, if we do enough SGD steps, all similarities would end up decaying at some point and we would eventually end up with the local model again. So where do we find the compromise here?
 - [ ] Is there a canonical symbol to denote the *true error* of a model? That's the correct name for what I'm defining here, right?
 - [ ] I'm almost certain that *true model* is not the correct term for the model that minimizes the true error over all models in a class of models. What's the correct term?
