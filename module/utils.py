@@ -1,4 +1,3 @@
-from enum import Enum
 from typing import Sequence, Tuple
 import random
 import os.path
@@ -124,15 +123,17 @@ def dont_split_Xy_age(files_data: Mapping[str, np.ndarray],
     
     return [(X[idx], files_data['age'][idx])]
 
-class SetLoaders(Enum):
-    ANNIE_EVD = load_2017annie_predict_EVD
-    TITANIC_SURVIVED = load_Titanic_predict_survived
+SetLoaders = {
+    'ANNIE_EVD'       : load_2017annie_predict_EVD,
+    'TITANIC_SURVIVED': load_Titanic_predict_survived
+}
     
-class Splitters(Enum):
-    AGE_STRICT = split_by_age
-    AGE_SOME   = split_some_by_age
-    SINGLE_CLIENT = dont_split
-    PREDICT_AGE_SINGLE_CLIENT = dont_split_Xy_age
+Splitters = {
+    'AGE_STRICT'               : split_by_age,
+    'AGE_SOME'                 : split_some_by_age,
+    'SINGLE_CLIENT'            : dont_split,
+    'PREDICT_AGE_SINGLE_CLIENT': dont_split_Xy_age
+}
 
 def load(set_loader, splitter, seed, loader_kwargs={}, splitter_kwargs={}
         ) -> Sequence[Tuple[np.ndarray, np.ndarray]]:
