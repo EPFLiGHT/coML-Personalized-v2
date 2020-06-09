@@ -1,7 +1,7 @@
 # Semester project on private and personalized ML
 semester project felix grimberg - private robust and personalized ML
 
-Read about the aim and objectives of this project in the [report](Report - 200608.pdf) (also on [overleaf](https://www.overleaf.com/read/qpymtfymrfzy)).
+Read about the aim and objectives of this project in the [report](Report - 200609.pdf) (also on [overleaf](https://www.overleaf.com/read/qpymtfymrfzy)).
 
 In this repo, we investigate methods for automatic data selection based on the distance between gradients in SGD-based optimization algorithms.
 
