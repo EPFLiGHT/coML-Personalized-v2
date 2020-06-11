@@ -38,6 +38,21 @@ We use `pipenv` to control external package dependencies. The safest way to avoi
 
 `modules`: This folder contains two `Python` files with functions and classes used in `Jax_federated_learning.ipynb`.
 
+### Ways ahead:
+
+- Automate hyper-parameter tuning and use cross-validation
+- Split the data set in more different ways
+  - IID
+  - Vary number of clients
+  - By gender
+  - By outcome (label skew)
+  - skew $\mathbb{P} \left( \mathbf{x} | y \right)$
+  - skew $\mathbb{P} \left( y | \mathbf{x} \right)$
+- Test the gradient-based method on a different task (maybe more parameters and much larger data set?)
+- Implement other methods
+- Refine gradient-based similarity some more, try it out on other problems
+- Rigorously define similarity (e.g., with learning theory notion of discrepancy)
+
 ### Setting:
 
 We consider a network of participants $u_i$, each collecting samples from an underlying distribution $\mathcal{D}_i$.
