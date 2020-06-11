@@ -26,6 +26,18 @@ We use `pipenv` to control external package dependencies. The safest way to avoi
   ```python -m ipykernel install --user --display-name <venv_name> --name <venv_name>```
 5. Obtain the data, which I do not own, and place it in `../data/private/`
 
+### Files:
+
+`data-preprocessing.ipynb`: This notebook handles the pre-processing of the Ebola dataset. Obtain the dataset `csv` file from Mary-Anne Hartley and place it in a folder named `../data/private` (relative to the repo folder). Then, run all cells of `data-preprocessing.ipynb` in order to produce the clean data files used in the federated learning simulations. The pre-processing is largely copied from Annie's 2017 paper on *Predicting Ebola Infection*.
+
+`Titanic-preprocessing.ipynb`: This notebook handles the loading and pre-processing of the Titanic dataset. Install `tensorflow_datasets` and run all cells of `Titanic-preprocessing.ipynb` to produce the clean data files used in the federated learning simulations. Many ideas in this notebook are inspired from https://www.kaggle.com/mnassrib/titanic-logistic-regression-with-python.
+
+`global-model-1.ipynb`: This notebook replicates the model for predicting Ebola infection (EVD+ vs EVD-) from Annie's 2017 paper using `scikit-learn`.
+
+`Jax_federated_learning.ipynb`: This notebook is the heart of the project. It implements the Weight Erosion aggregator in an earlier version of Sai Praneeth Karimireddy's Jax-based FL simulation framework (GitHub: @saipraneet). Jump to the Markdown cell titled *Run a federated learning simulation* to specify all simulation parameters, then execute all cells in order (from the top) to run the simulation and output its results.
+
+`modules`: This folder contains two `Python` files with functions and classes used in `Jax_federated_learning.ipynb`.
+
 ### Setting:
 
 We consider a network of participants $u_i$, each collecting samples from an underlying distribution $\mathcal{D}_i$.
