@@ -45,9 +45,13 @@ def make_ds(X, y, batch_size):
                  .batch(batch_size, drop_remainder=False)
 
 # This function is not stateless, due to the use of random.shuffle. It is used only once, before the training loop.
+split_by_age_share_na = lambda files_data, metadata: split_by_age(files_data, metadata, share_na=True)
+
+# This function is not stateless, due to the use of random.shuffle. It is used only once, before the training loop.
 def split_by_age(
         files_data: Mapping[str, np.ndarray],
-        metadata
+        metadata,
+        share_na = False
 ) -> Clients_X_y:
     """ Split the datum points (X,y) into three sets based on the age of the patients.
     The patients are sorted into age groups delimited by age_lims.
@@ -65,7 +69,6 @@ def split_by_age(
     
     age_lims = [-0.01] + age_lims + [150]
     
-    
     idx_na = np.asarray((age <= age_lims[0]) | (age_lims[-1] < age)).nonzero()[0]
     num_na = idx_na.shape[0]
     random.shuffle(idx_na)
@@ -73,16 +76,20 @@ def split_by_age(
     ids = []
     for i, (lower, upper) in enumerate(zip(age_lims[:-1], age_lims[1:])):
         idx = np.asarray((lower < age) & (age <= upper)).nonzero()[0]
-        ids.append(idx)
-    
-    num_valid = age.shape[0] - num_na
-    for i, idx in enumerate(ids[:-1]):
-        num_na_for_client = int(len(idx) / num_valid * num_na)
-        ids[i] = np.concatenate((idx, idx_na[:num_na_for_client]))
-        idx_na = idx_na[num_na_for_client:]
-    ids[-1] = np.concatenate((ids[-1], idx_na))
-    for idx in ids:
         random.shuffle(idx)
+        ids.append(idx)
+    if not share_na:
+        ids.append(idx_na)
+    else:
+        num_valid = age.shape[0] - num_na
+        for i, idx in enumerate(ids[:-1]):
+            num_na_for_client = int(len(idx) / num_valid * num_na)
+            ids[i] = np.concatenate((idx, idx_na[:num_na_for_client]))
+            idx_na = idx_na[num_na_for_client:]
+        ids[-1] = np.concatenate((ids[-1], idx_na))
+        for idx in ids:
+            random.shuffle(idx)
+            
     return [(X[idx], y[idx]) for idx in ids]
 
 def split_some_by_age(
@@ -130,6 +137,7 @@ SetLoaders = {
     
 Splitters = {
     'AGE_STRICT'               : split_by_age,
+    'AGE_STRICT_SHARE_NA'      : split_by_age_share_na,
     'AGE_SOME'                 : split_some_by_age,
     'SINGLE_CLIENT'            : dont_split,
     'PREDICT_AGE_SINGLE_CLIENT': dont_split_Xy_age
