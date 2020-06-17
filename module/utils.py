@@ -45,9 +45,6 @@ def make_ds(X, y, batch_size):
                  .batch(batch_size, drop_remainder=False)
 
 # This function is not stateless, due to the use of random.shuffle. It is used only once, before the training loop.
-split_by_age_share_na = lambda files_data, metadata: split_by_age(files_data, metadata, share_na=True)
-
-# This function is not stateless, due to the use of random.shuffle. It is used only once, before the training loop.
 def split_by_age(
         files_data: Mapping[str, np.ndarray],
         metadata,
@@ -78,19 +75,23 @@ def split_by_age(
         idx = np.asarray((lower < age) & (age <= upper)).nonzero()[0]
         random.shuffle(idx)
         ids.append(idx)
-    if not share_na:
-        ids.append(idx_na)
-    else:
-        num_valid = age.shape[0] - num_na
-        for i, idx in enumerate(ids[:-1]):
-            num_na_for_client = int(len(idx) / num_valid * num_na)
-            ids[i] = np.concatenate((idx, idx_na[:num_na_for_client]))
-            idx_na = idx_na[num_na_for_client:]
-        ids[-1] = np.concatenate((ids[-1], idx_na))
-        for idx in ids:
-            random.shuffle(idx)
+    if num_na:
+        if not share_na:
+            ids.append(idx_na)
+        else:
+            num_valid = age.shape[0] - num_na
+            for i, idx in enumerate(ids[:-1]):
+                num_na_for_client = int(len(idx) / num_valid * num_na)
+                ids[i] = np.concatenate((idx, idx_na[:num_na_for_client]))
+                idx_na = idx_na[num_na_for_client:]
+            ids[-1] = np.concatenate((ids[-1], idx_na))
+            for idx in ids:
+                random.shuffle(idx)
             
     return [(X[idx], y[idx]) for idx in ids]
+
+# This function is not stateless, due to the use of random.shuffle. It is used only once, before the training loop.
+split_by_age_share_na = lambda files_data, metadata: split_by_age(files_data, metadata, share_na=True)
 
 def split_some_by_age(
         files_data: Mapping[str, np.ndarray],
