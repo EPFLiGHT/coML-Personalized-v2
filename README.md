@@ -1,30 +1,12 @@
 # Semester project on private and personalized ML
-semester project felix grimberg - private robust and personalized ML
+Felix Grimberg @ MLO EPFL
 
 Read about the aim and objectives of this project in the [report](Grimberg_personalizedFL.pdf) (also on [overleaf](https://www.overleaf.com/read/qpymtfymrfzy)).
 
-In this repo, we investigate methods for automatic data selection based on the distance between gradients in SGD-based optimization algorithms.
+In this repo, we investigate methods for collaborative training of personalized ML models based on the distance between gradients in SGD-based optimization algorithms.
 
 ## To view correctly displayed formulas directly in GitHub, open [the IPYNB version of this README](README.ipynb)!
 It's updated nightly to mirror the contents of the Markdown file.
-
-### Using the repo (no longer actually using pipenv)
-
-We use `pipenv` to control external package dependencies. The safest way to avoid dependency issues while running code from this project is to follow these steps:
-
-1. Make sure the latest version of `pipenv` is installed:
-  1. ```pip install --upgrade pipenv```
-  2. If necessary, add the `--user` option. When using this option, **remember to update the `PATH` environment variable** with the directory in which pipenv was installed:
-  
-    ```export PATH=<directory>:$PATH```
-2. Clone the repository (`git clone`) and `cd` into it.
-3. Install the dependencies from the `Pipfile.lock` file: ```pipenv sync```
-4. Make sure to use the virtual environment you've just created:
-  1. Activate the virtual environment: `pipenv shell`
-  2. To execute IPython Notebooks, you need to create a Kernel for this environment. With the virtual environment active, execute the following (you can pick the venv name):
-  
-  ```python -m ipykernel install --user --display-name <venv_name> --name <venv_name>```
-5. Obtain the data, which I do not own, and place it in `../data/private/`
 
 ### Files:
 
@@ -48,8 +30,8 @@ We use `pipenv` to control external package dependencies. The safest way to avoi
   - By outcome (label skew)
   - skew $\mathbb{P} \left( \mathbf{x} | y \right)$
   - skew $\mathbb{P} \left( y | \mathbf{x} \right)$
-- Test the gradient-based method on a different task (maybe more parameters and much larger data set?)
-- Implement other methods
+- Test the gradient-based method on a different task (maybe more parameters and much larger data set, e.g. from medical imaging?)
+- Implement other methods (e.g., based on _influence_)
 - Refine gradient-based similarity some more, try it out on other problems
 - Rigorously define similarity (e.g., with learning theory notion of discrepancy)
 
