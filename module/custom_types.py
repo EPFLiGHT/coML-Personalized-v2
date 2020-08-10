@@ -25,7 +25,8 @@ ServerHyperParams = namedtuple("ServerHyperParams", "num_rounds\
                                                      seed")
 
 # Define the aggregator format
-SimilarityAggregatorHyperParams = namedtuple("SimilarityAggregatorHyperParams", "distance_penalty_factor")
+SimilarityAggregatorHyperParams = namedtuple("SimilarityAggregatorHyperParams", "distance_penalty_factor\
+                                                                                 size_penalty_factor")
 AverageAggregatorHyperParams = namedtuple("AverageAggregatorHyperParams", "")
 AggregatorHyperParams = Union[SimilarityAggregatorHyperParams, AverageAggregatorHyperParams]
 AggregatorFunction = Callable[[Sequence[hk.Params], Sequence[ClientState], AggregatorHyperParams], Tuple[hk.Params, Sequence[ClientState]]]
