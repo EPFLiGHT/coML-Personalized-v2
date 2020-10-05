@@ -1,7 +1,9 @@
 # Semester project on private and personalized ML
 Felix Grimberg @ MLO EPFL
 
-Read about the aim and objectives of this project in the [report](Grimberg_personalizedFL.pdf) (also on [overleaf](https://www.overleaf.com/read/qpymtfymrfzy)).
+Read everything about this project:
+ - *Short version* in [this conference paper](https://link.springer.com/chapter/10.1007/978-3-030-60548-3_16)
+ - *Extended version* in the [report](Grimberg_personalizedFL.pdf) (also on [overleaf](https://www.overleaf.com/read/qpymtfymrfzy)).
 
 In this repo, we investigate methods for collaborative training of personalized ML models based on the distance between gradients in SGD-based optimization algorithms.
 
